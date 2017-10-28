@@ -1,0 +1,17 @@
+{
+    "hostname": "http://__PLEX__HOST__",
+    "port": 32400,
+    "plextoken": "__YOUR__PLEX__TOKEN__",
+    "sections": [
+        {
+            "_id": "1",
+            "name": "Movies",
+            "virtuallibpath": "__PATH__TO__VIRTUAL__LIBRARY__ROOT__PATH__",
+            "virtuallibpoolroot": "__PATH__TO__POOLED__VIRTUAL__LIBRARY__ROOT__:",
+            "virtuallibpool": [
+                "__POOLED__DRIVE__1__", 
+                "__POOLED__DRIVE__2__"
+            ]
+        }
+    ]
+}
