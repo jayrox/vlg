@@ -57,8 +57,6 @@ func main() {
 					for _, vlPool := range pool {
 						vlPath := strings.Replace(section.VirtualLibPath, root, vlPool, 1)
 						fPath := strings.Replace(p, root, vlPool, 1)
-						fmt.Println(vlPath)
-						fmt.Println(fPath)
 						createFolderandLinks(vlTitle, vlPath, fPath)
 					}
 				}
@@ -89,11 +87,12 @@ func getPlexSections(urlRoot, plexToken string) (sections []section) {
 	for _, dir := range data.Directory {
 		for _, s := range cfg.Sections {
 			if strings.ToUpper(s.Name) == strings.ToUpper(dir.Title) {
-				sections = append(sections, section{Title: dir.Title, Path: dir.Location.Path, ID: dir.Location.ID, VirtualLibPath: s.VirtualLibPath})
+				for _, l := range dir.Location {
+					sections = append(sections, section{Title: dir.Title, Path: l.Path, ID: dir.Key, VirtualLibPath: s.VirtualLibPath})
+				}
 			}
 		}
 	}
-
 	return
 }
 
@@ -144,7 +143,6 @@ func getPlexCollectionContents(urlRoot, section, collection, plexToken string) (
 	}
 
 	for _, media := range data.Video {
-		//fmt.Printf("%#v\n", media.Media.Part.File)
 		paths = append(paths, media.Media.Part.File)
 	}
 
@@ -245,23 +243,23 @@ type sectionMediaContainer struct {
 }
 
 type sectionDirectory struct {
-	Location            sectionLocation `xml:"Location"`
-	Refreshing          int             `xml:"refreshing,attr"`
-	UpdatedAt           int64           `xml:"updatedAt,attr"`
-	Filters             int             `xml:"filters,attr"`
-	Thumb               string          `xml:"thumb,attr"`
-	Language            string          `xml:"language,attr"`
-	Key                 int             `xml:"key,attr"`
-	Scanner             string          `xml:"scanner,attr"`
-	CreatedAt           int64           `xml:"createdAt,attr"`
-	Composite           string          `xml:"composite,attr"`
-	Art                 string          `xml:"art,attr"`
-	AllowSync           int             `xml:"allowSync,attr"`
-	Type                string          `xml:"type,attr"`
-	EnableAutoPhotoTags string          `xml:"enableAutoPhotoTags,attr"`
-	Title               string          `xml:"title,attr"`
-	Agent               string          `xml:"agent,attr"`
-	UUID                string          `xml:"uuid,attr"`
+	Location            []sectionLocation `xml:"Location"`
+	Refreshing          int               `xml:"refreshing,attr"`
+	UpdatedAt           int64             `xml:"updatedAt,attr"`
+	Filters             int               `xml:"filters,attr"`
+	Thumb               string            `xml:"thumb,attr"`
+	Language            string            `xml:"language,attr"`
+	Key                 string            `xml:"key,attr"`
+	Scanner             string            `xml:"scanner,attr"`
+	CreatedAt           int64             `xml:"createdAt,attr"`
+	Composite           string            `xml:"composite,attr"`
+	Art                 string            `xml:"art,attr"`
+	AllowSync           int               `xml:"allowSync,attr"`
+	Type                string            `xml:"type,attr"`
+	EnableAutoPhotoTags string            `xml:"enableAutoPhotoTags,attr"`
+	Title               string            `xml:"title,attr"`
+	Agent               string            `xml:"agent,attr"`
+	UUID                string            `xml:"uuid,attr"`
 }
 type sectionLocation struct {
 	Path string `xml:"path,attr"`
